@@ -11,6 +11,6 @@ RUN apt update
 RUN apt install build-essential -y
 
 RUN pip install -r requirements.txt
-RUN python initialize_cache.py
+#RUN python initialize_cache.py
 
 CMD ["python", "translator.py"]
