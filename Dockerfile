@@ -5,7 +5,12 @@ ADD requirements.txt /translator/requirements.txt
 ADD initialize_cache.py /translator/initialize_cache.py
 ADD translator.py /translator/translator.py
 
-#WORKDIR /translator
+WORKDIR /translator
 
-#RUN pip install -r requirements.txt
+RUN apt update
+RUN apt install build-essential -y
+
+RUN pip install -r requirements.txt
+RUN python initialize_cache.py
+
 CMD ["python", "translator.py"]
