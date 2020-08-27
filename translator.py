@@ -14,11 +14,13 @@ torch.hub.set_dir(f"{os.path.dirname(os.path.realpath(__file__))}/cache")
 
 @app.route('/health', methods=['GET', 'POST'])
 def health():
+    print("Health called")
     return jsonify(healthy=True)
 
 
 @app.route('/', methods=['POST'])
 def index():
+    print("Translate called")
     return jsonify(translation=translate(request.json['text']))
 
 
@@ -28,4 +30,4 @@ def translate(text):
 
 
 if __name__ == "__main__":
-    app.run(port=80, host='0.0.0.0', debug=True)
+    app.run(port=3000, host='0.0.0.0', debug=False)
