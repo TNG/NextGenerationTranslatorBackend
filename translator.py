@@ -6,9 +6,15 @@ import os
 app = Flask(__name__)
 
 torch.hub.set_dir(f"{os.path.dirname(os.path.realpath(__file__))}/cache")
-#de2en = torch.hub.load('pytorch/fairseq', 'transformer.wmt19.de-en',
+
+
+# de2en = torch.hub.load('pytorch/fairseq', 'transformer.wmt19.de-en',
 #                       checkpoint_file='model1.pt:model2.pt:model3.pt:model4.pt',
 #                       tokenizer='moses', bpe='fastbpe')
+
+@app.route('/health', methods=['GET', 'POST'])
+def health():
+    return jsonify(healthy=True)
 
 
 @app.route('/', methods=['POST'])
@@ -22,4 +28,4 @@ def translate(text):
 
 
 if __name__ == "__main__":
-    app.run(port=80, debug=True)
+    app.run(port=3000, debug=True)
