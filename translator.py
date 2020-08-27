@@ -5,12 +5,6 @@ import os
 
 app = Flask(__name__)
 
-torch.hub.set_dir(f"{os.path.dirname(os.path.realpath(__file__))}/cache")
-
-
-# de2en = torch.hub.load('pytorch/fairseq', 'transformer.wmt19.de-en',
-#                       checkpoint_file='model1.pt:model2.pt:model3.pt:model4.pt',
-#                       tokenizer='moses', bpe='fastbpe')
 
 @app.route('/health', methods=['GET', 'POST'])
 def health():
@@ -24,7 +18,15 @@ def index():
 
 def translate(text):
     return text + " 1"
-#    return de2en.translate(text)
+
+
+@app.route('/init', methods=['GET', 'POST'])
+def init():
+    torch.hub.set_dir(f"{os.path.dirname(os.path.realpath(__file__))}/cache")
+    de2en = torch.hub.load('pytorch/fairseq', 'transformer.wmt19.de-en',
+                           checkpoint_file='model1.pt:model2.pt:model3.pt:model4.pt',
+                           tokenizer='moses', bpe='fastbpe')
+    return jsonify(de2en.translate("Heute ist ein toller Tag!"))
 
 
 if __name__ == "__main__":
