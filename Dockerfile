@@ -9,9 +9,8 @@ WORKDIR /translator
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-ADD initialize_cache.py initialize_cache.py
-#RUN python initialize_cache.py
-
 ADD translator.py translator.py
+ADD translator_service.py translator_service.py
+ADD wsgi.py wsgi.py
 
-CMD ["python", "translator.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:app"]
