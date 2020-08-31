@@ -15,7 +15,7 @@ def health():
 
 @app.route('/translate', methods=['POST'])
 def index():
-    return jsonify(translation=translator.translate(request.json['text']))
+    return jsonify(translations=[translator.translate(text) for text in request.json['texts']])
 
 
 @app.errorhandler(TranslationError)
