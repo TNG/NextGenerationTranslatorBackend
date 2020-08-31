@@ -25,7 +25,7 @@ class Translator:
         load_end = time.time()
         print("Model loaded in {} seconds".format(load_end - load_start))
         if torch.cuda.is_available():
-            if torch.cuda.get_device_properties(0).total_memory > 12000000000:
+            if torch.cuda.get_device_properties(0).total_memory > 11900000000:
                 print("CUDA available and GPU memory appears sufficient - loading de2en model into GPU...")
                 self._model.cuda()
             else:
