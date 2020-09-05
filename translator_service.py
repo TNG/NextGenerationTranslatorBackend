@@ -13,7 +13,7 @@ def health():
     return jsonify(healthy=True)
 
 
-@app.route('/translate', methods=['POST'])
+@app.route('/translation', methods=['POST'])
 def index():
     return jsonify(translations=[translator.translate(text) for text in request.json['texts']])
 
@@ -24,4 +24,4 @@ def handle_translation_error(e):
 
 
 if __name__ == "__main__":
-    app.run(port=80, host='0.0.0.0', debug=True, threaded=True)
+    app.run(port=80, host='0.0.0.0', debug=True)
