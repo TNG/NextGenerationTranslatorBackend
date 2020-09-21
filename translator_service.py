@@ -19,12 +19,12 @@ def health():
 
 @app.route('/translation', methods=['POST'])
 def translate():
-    return jsonify(translations=[translator.translate(text) for text in request.json['texts']])
+    return jsonify(texts=[translator.translate(text) for text in request.json['texts']])
 
 
 @app.route('/detection', methods=['POST'])
 def detect():
-    return jsonify(language=detector.detect_language(request.json['text']))
+    return jsonify(text=detector.detect_language(request.json['text']))
 
 
 @app.errorhandler(TranslationError)
