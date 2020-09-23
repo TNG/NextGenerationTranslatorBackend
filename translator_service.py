@@ -9,7 +9,7 @@ from translator import Translator, TranslationError
 app = Flask(__name__)
 translator = Translator()
 detector = Detector()
-start_new_thread(translator.initialize_model, ())
+start_new_thread(translator.initialize_models, ())
 
 
 @app.route('/health', methods=['GET', 'POST'])
@@ -19,7 +19,7 @@ def health():
 
 @app.route('/translation', methods=['POST'])
 def translate():
-    return jsonify(texts=[translator.translate(text) for text in request.json['texts']])
+    return jsonify(texts=[translator.translate(text, request.json['targetLanguage']) for text in request.json['texts']])
 
 
 @app.route('/detection', methods=['POST'])
