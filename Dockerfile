@@ -10,6 +10,7 @@ ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 ADD translator.py translator.py
+ADD detector.py detector.py
 ADD translator_service.py translator_service.py
 ADD wsgi.py wsgi.py
 
