@@ -62,7 +62,7 @@ class Translator:
         text_list = self._tokenize_and_split_sentences(text)
         text_list_translated = model.translate(text_list)
         text_list_translated = self._fix_empty_lines(text_list, text_list_translated)
-        return ''.join(text_list_translated)[:-1]
+        return ' '.join(text_list_translated)[:-1]
 
     @staticmethod
     def _tokenize_and_split_sentences(unprocessed_string):
