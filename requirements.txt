@@ -1,11 +1,14 @@
 flask==1.1.2
 flask-jsonpify==1.5.0
 flask-restful==0.3.8
+requests==2.24.0
 gunicorn==20.0.4
 torch==1.6.0
 fastBPE==0.1.0
 sacremoses==0.0.43
 Cython==0.29.21
-requests==2.24.0
+Hydra==2.5
+hydra-core==1.0.4
+omegaconf==2.0.5
 nltk==3.5
 langdetect==1.0.8
