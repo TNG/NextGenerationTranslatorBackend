@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.6.0-cuda10.1-cudnn7-runtime
+FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
 
 RUN apt update
 RUN apt install build-essential -y
@@ -13,5 +13,6 @@ ADD translator.py translator.py
 ADD detector.py detector.py
 ADD translator_service.py translator_service.py
 ADD wsgi.py wsgi.py
+ADD test.py test.py
 
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:app"]
+CMD ["/bin/bash"]

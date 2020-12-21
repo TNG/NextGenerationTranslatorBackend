@@ -8,8 +8,13 @@ from translator import Translator, TranslationError
 
 app = Flask(__name__)
 translator = Translator()
+
+print("hello")
+translator.initialize_models()
 detector = Detector()
-start_new_thread(translator.initialize_models, ())
+print("done")
+#start_new_thread(translator.initialize_models, ())
+
 
 
 @app.route('/health', methods=['GET', 'POST'])

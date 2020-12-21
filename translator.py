@@ -19,8 +19,6 @@ class Translator:
     def initialize_models(self):
         print("Loading de2en model...")
         self._model_de_en = self._initialize_model('transformer.wmt19.de-en')
-        print("Loading en2de model...")
-        self._model_en_de = self._initialize_model('transformer.wmt19.en-de')
 
         self._models_loaded = True
 
@@ -32,7 +30,6 @@ class Translator:
         model = torch.hub.load('pytorch/fairseq', model_name,
                                checkpoint_file='model1.pt:model2.pt:model3.pt:model4.pt',
                                tokenizer='moses', bpe='fastbpe')
-        model.eval()
         load_end = time.time()
         print("Model loaded in {} seconds".format(load_end - load_start))
         if torch.cuda.is_available():
