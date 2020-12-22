@@ -15,4 +15,4 @@ ADD translator_service.py translator_service.py
 ADD wsgi.py wsgi.py
 ADD test.py test.py
 
-CMD ["/bin/bash"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:app"]
