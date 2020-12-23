@@ -14,7 +14,7 @@ start_new_thread(translator.initialize_models, ())
 
 @app.route('/health', methods=['GET', 'POST'])
 def health():
-    return jsonify(healthy=True)
+    return jsonify(healthy=True, serviceAvailable=translator.models_loaded)
 
 
 @app.route('/translation', methods=['POST'])

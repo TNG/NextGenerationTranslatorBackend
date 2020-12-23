@@ -12,7 +12,7 @@ class TranslationError(Exception):
 
 class Translator:
     def __init__(self):
-        self._models_loaded = False
+        self.models_loaded = False
         self._model_de_en = None
         self._model_en_de = None
 
@@ -22,7 +22,7 @@ class Translator:
         print("Loading en2de model...")
         self._model_en_de = self._initialize_model('transformer.wmt19.en-de')
 
-        self._models_loaded = True
+        self.models_loaded = True
 
         print(self.translate('Das Modell ist nun geladen', 'en'))
 
@@ -47,7 +47,7 @@ class Translator:
         return model
 
     def translate(self, text, target_language):
-        if not self._models_loaded:
+        if not self.models_loaded:
             raise TranslationError("Translation model not yet loaded")
 
         return self._translate_text(text, target_language)
