@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 To start the backend translation service, call the following command:
 ```
-python translator-service.py
+python src/main/translator_service.py
 ```
 
 This will start the service at http://localhost:80.
