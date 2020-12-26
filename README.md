@@ -88,3 +88,27 @@ The result will look like this:
 The resulting array will contain the translated texts in the order in which they were given as inputs.
 
 If the service is not yet started, status code 500 and the error message will be returned.
+
+You can also use a script shortcut script:
+
+```
+src/script/translate.sh 'Text to be translated' 'de'
+```
+
+## Run (load) test
+
+To test the functionality, but also to get an impression of what it is like to test with multiple requests at once,
+use the following command AFTER starting the service locally or in a container:
+
+```
+pytest -s --capture=no
+```
+
+This will fire 100 requests with random texts from resources/test_texts.csv against the service
+and verify the correctness of the results. The request will all be fired randomly within 10 seconds.
+
+To manipulate the number of requests or timer settings, you can change the following ENV variabes:
+- TEST_HOST to change the host from localhost and port from 80 (default: http://localhost:80)
+- NUMBER_OF_REQUESTS to change the number of requests (default: 100)
+- REQUEST_TIMESPAN to change the interval (in seconds) in which requests are sent (default: 10)
+- BEARER_TOKEN to use in an environment where a bearer token is needed (like AWS)
