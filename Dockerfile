@@ -12,6 +12,7 @@ RUN pip install -r requirements.txt
 ADD src/main/translator.py translator.py
 ADD src/main/detector.py detector.py
 ADD src/main/translator_service.py translator_service.py
+ADD src/main/request_limitation.py request_limitation.py
 ADD src/main/wsgi.py wsgi.py
 
 CMD ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:app"]
