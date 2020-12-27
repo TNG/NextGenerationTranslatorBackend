@@ -58,6 +58,9 @@ The following information can be read from this endpoint:
 - "healthy" is always set to true once the service is running
 - "serviceAvailable" is set to true once the translation service is ready to translate (i.e. the models are loaded)
 
+The config is tailored in a way that health requests may still pass through even if translation requests end in 
+a 503 (Service unavailable) status code
+
 ### Detect language
 
 To detect in which language a specific text is written, POST to the /detection endpoint
