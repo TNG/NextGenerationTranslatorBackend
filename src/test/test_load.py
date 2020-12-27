@@ -25,6 +25,7 @@ class TestLoad:
     @pytest.mark.asyncio
     @pytest.fixture(autouse=True)
     def server_configure(self, event_loop):
+        self._current_request_number = 0
         event_loop.run_until_complete(self._wait_until_service_is_ready())
         self.pytest_configure()
 
@@ -72,20 +73,44 @@ class TestLoad:
             )
 
     async def _translate_and_assert(self, session, req_n):
-        text_to_translate = self._texts[random.randint(0, len(self._texts) - 1)]
-        pause = random.random() * self.max_timeout
+        await self._add_request_timeout()
 
-        request_body = json.dumps({'targetLanguage': text_to_translate[2], 'texts': [text_to_translate[0]]})
+        self._current_request_number += 1
+        text_to_translate = self._texts[random.randint(0, len(self._texts) - 1)]
+        while True:
+            request_body = self._create_request_body(text_to_translate)
+            print(f"Creating request {req_n} for text '{text_to_translate[0]}' to {base_url} at {datetime.now()} "
+                  f"({self._current_request_number} concurrent requests)")
+            async with session.post(f"{base_url}/translation", data=request_body) as resp:
+                self._current_request_number -= 1
+
+                if self._interrupted_due_to_rate_limit(resp):
+                    wait_timeout = int(resp.headers['Retry-After'])
+                    print(f"Request {req_n} must be repeated due to rate limitation in {wait_timeout} seconds")
+                    await asyncio.sleep(wait_timeout)
+                    continue
+
+                return await self._assert_translation_response(req_n, resp, text_to_translate[1])
+
+    @staticmethod
+    def _create_request_body(text_to_translate):
+        return json.dumps({'targetLanguage': text_to_translate[2], 'texts': [text_to_translate[0]]})
+
+    async def _add_request_timeout(self):
+        pause = random.random() * self.max_timeout
         print(f"Waiting for {pause.__format__('.2f')} seconds at {datetime.now()}")
         await asyncio.sleep(pause)
-        print(f"Creating request {req_n} for text '{text_to_translate[0]}' to {base_url} at {datetime.now()}")
 
-        async with session.post(f"{base_url}/translation", data=request_body) as resp:
-            if resp.status == 200:
-                response_text = await resp.text()
-                result = json.loads(response_text)
-                result_text = result['texts'][0]
+    @staticmethod
+    def _interrupted_due_to_rate_limit(resp):
+        return resp.status == 503 and resp.headers['Retry-After']
 
-                print(f"Got result for request {req_n} as text '{result_text}' at {datetime.now()}")
-                assert result_text == text_to_translate[1]
-                return result
+    async def _assert_translation_response(self, req_n, resp, expected_result):
+        assert resp.status == 200
+        response_text = await resp.text()
+        result = json.loads(response_text)
+        result_text = result['texts'][0]
+        print(f"Got result for request {req_n} as text '{result_text}' at {datetime.now()} "
+              f"({self._current_request_number} concurrent requests)")
+        assert result_text == expected_result
+        return result
