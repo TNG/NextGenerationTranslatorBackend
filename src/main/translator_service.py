@@ -9,6 +9,7 @@ from translator import Translator, TranslationError
 from request_limitation import RequestLimiter, RequestLimitExceededException
 
 app = Flask(__name__)
+
 translator = Translator()
 detector = Detector()
 start_new_thread(translator.initialize_models, ())

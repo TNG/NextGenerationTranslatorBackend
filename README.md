@@ -13,9 +13,14 @@ Then call the following command:
 pip install -r requirements.txt
 ```
 
+You need to start a local Redis instance:
+```
+src/script/start-redis.sh
+```
+
 To start the backend translation service, call the following command:
 ```
-python src/main/translator_service.py
+src/script/start-local.sh
 ```
 
 This will start the service at http://localhost:80.
@@ -24,7 +29,7 @@ This will start the service at http://localhost:80.
 
 To run the service in Docker, simply call the following command:
 ```
-./docker-run.sh
+src/script/docker-run.sh
 ```
 
 This will build a Docker image and run it locally.
