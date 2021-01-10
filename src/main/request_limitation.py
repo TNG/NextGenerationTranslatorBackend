@@ -27,7 +27,6 @@ class RequestLimiter:
         return RequestLimiter.RequestLimitation(self)
 
     def new_request(self):
-        print(int(self._redis.get(request_key)), self._max_number_of_concurrent_requests)
         if int(self._redis.get(request_key)) > self._max_number_of_concurrent_requests:
             raise RequestLimitExceededException()
 
