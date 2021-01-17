@@ -23,6 +23,11 @@ To start the backend translation service, call the following command:
 src/script/start-local.sh
 ```
 
+To just download the models, run the following command (this is also done implicitly when starting the application):
+```
+python src/main/init_translation.py
+```
+
 This will start the service at http://localhost:80.
 
 ## Build and run in Docker

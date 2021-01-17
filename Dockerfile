@@ -14,6 +14,7 @@ ADD src/main/detector.py detector.py
 ADD src/main/translator_service.py translator_service.py
 ADD src/main/request_limitation.py request_limitation.py
 ADD src/main/wsgi.py wsgi.py
+ADD src/main/init_translation.py init_translation.py
 
 # Workers are limited to 1 so we do not have to load the model multiple times
 # 5 threads are in use since concurrent translation requests are limited to 3 parallel request, so health requests still pass through
