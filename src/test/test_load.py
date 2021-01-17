@@ -75,20 +75,22 @@ class TestLoad:
     async def _translate_and_assert(self, session, req_n):
         await self._add_request_timeout()
 
-        self._current_request_number += 1
         text_to_translate = self._texts[random.randint(0, len(self._texts) - 1)]
         while True:
             request_body = self._create_request_body(text_to_translate)
             print(f"Creating request {req_n} for text '{text_to_translate[0]}' to {base_url} at {datetime.now()} "
                   f"({self._current_request_number} concurrent requests)")
+
+            self._current_request_number += 1
             async with session.post(f"{base_url}/translation", data=request_body) as resp:
+                self._current_request_number -= 1
+
                 if self._interrupted_due_to_rate_limit(resp):
                     wait_timeout = int(resp.headers['Retry-After'])
                     print(f"Request {req_n} must be repeated due to rate limitation in {wait_timeout} seconds")
                     await asyncio.sleep(wait_timeout)
                     continue
 
-                self._current_request_number -= 1
                 return await self._assert_translation_response(req_n, resp, text_to_translate[1])
 
     @staticmethod
