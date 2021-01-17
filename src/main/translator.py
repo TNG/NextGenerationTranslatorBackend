@@ -29,7 +29,7 @@ class Translator:
     @staticmethod
     def _initialize_model(model_name):
         load_start = time.time()
-        model = torch.hub.load('pytorch/fairseq', model_name,
+        model = torch.hub.load('pytorch/fairseq:v0.10.2', model_name,
                                checkpoint_file='model1.pt:model2.pt:model3.pt:model4.pt',
                                tokenizer='moses', bpe='fastbpe')
         model.eval()
