@@ -85,7 +85,7 @@ This means that the language has detected your text to be written in German ('de
 
 ### Translate text
 
-To translate texts to German or English, POST to the /detection endpoint
+To translate texts to German or English, POST to the /translation endpoint
 
 ```
 curl -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' \
