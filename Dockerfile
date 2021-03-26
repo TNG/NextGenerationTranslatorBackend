@@ -1,7 +1,7 @@
-FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
+FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
 
 RUN apt update
-RUN apt install build-essential -y
+RUN apt install build-essential redis-server -y
 
 RUN mkdir /translator
 WORKDIR /translator
@@ -9,13 +9,11 @@ WORKDIR /translator
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-ADD src/main/translator.py translator.py
-ADD src/main/detector.py detector.py
-ADD src/main/translator_service.py translator_service.py
-ADD src/main/request_limitation.py request_limitation.py
-ADD src/main/wsgi.py wsgi.py
-ADD src/main/init_translation.py init_translation.py
-
+ADD src/main .
+RUN rm -rf easy_nmt_cache
+ENV REDIS_HOST=localhost
+ENV THREADS=5
+ENV WORKERS=1
 # Workers are limited to 1 so we do not have to load the model multiple times
 # 5 threads are in use since concurrent translation requests are limited to 3 parallel request, so health requests still pass through
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:app", "-w", "1", "--threads", "5"]
+CMD [ "sh", "-c", "redis-server --daemonize yes && gunicorn --bind 0.0.0.0:80 wsgi:app -w ${WORKERS} --threads ${THREADS} --timeout 600"]

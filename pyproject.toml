@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "tngtranslator-backend"
+version = "1.0.0"
+description = "Backend for the NextGenerationTranslator Confluence plugin"
+authors = ["Thomas Endres thomas.endres@tngtech.com"]
+license = "Apache License 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+cython = "0.29.34"
+langdetect = "1.0.9"
+transformers = "^4.33.2"
+sacremoses = "0.0.53"
+packaging = "21.3"
+flask = "^2.3.3"
+requests = "^2.31.0"
+gunicorn = "20.1.0"
+torch = "1.13.1"
+redis = "4.5.4"
+aiohttp = "3.8.4"
+dijkstra = "0.2.1"
+pydantic = "1.10.8"
+aiodns = "3.0.0"
+tenacity = "8.2.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "7.2.2"
+pytest-asyncio = "0.21.0"
+pytest-aiohttp = "1.0.4"
+
+[tool.poetry.group.opusmt.dependencies]
+EasyNMT = "2.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
