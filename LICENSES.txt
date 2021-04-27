@@ -1,0 +1,52 @@
+ Name                    Version     License                                             
+ Cython                  0.29.21     Apache Software License                             
+ aiohttp                 3.7.3       Apache Software License                             
+ async-timeout           3.0.1       Apache Software License                             
+ dataclasses             0.6         Apache Software License                             
+ importlib-resources     4.1.0       Apache Software License                             
+ langdetect              1.0.8       Apache Software License                             
+ multidict               5.1.0       Apache Software License                             
+ nltk                    3.5         Apache Software License                             
+ pytest-aiohttp          0.3.0       Apache Software License                             
+ pytest-asyncio          0.14.0      Apache Software License                             
+ regex                   2020.11.13  Apache Software License                             
+ requests                2.24.0      Apache Software License                             
+ yarl                    1.6.3       Apache Software License                             
+ packaging               20.8        Apache Software License, BSD License                
+ antlr4-python3-runtime  4.8         BSD                                                 
+ numpy                   1.19.4      BSD                                                 
+ Flask                   1.1.2       BSD License                                         
+ Flask-RESTful           0.3.8       BSD License                                         
+ Jinja2                  2.11.2      BSD License                                         
+ MarkupSafe              1.1.1       BSD License                                         
+ Werkzeug                1.0.1       BSD License                                         
+ aniso8601               8.1.0       BSD License                                         
+ click                   7.1.2       BSD License                                         
+ idna                    2.10        BSD License                                         
+ itsdangerous            1.1.0       BSD License                                         
+ joblib                  1.0.0       BSD License                                         
+ omegaconf               2.0.5       BSD License                                         
+ torch                   1.7.0       BSD License                                         
+ chardet                 3.0.4       GNU Library or Lesser General Public License (LGPL) 
+ Flask-Jsonpify          1.5.0       MIT License                                         
+ Hydra                   2.5         MIT License                                         
+ PyYAML                  5.3.1       MIT License                                         
+ attrs                   20.3.0      MIT License                                         
+ future                  0.18.2      MIT License                                         
+ gunicorn                20.0.4      MIT License                                         
+ hydra-core              1.0.4       MIT License                                         
+ iniconfig               1.1.1       MIT License                                         
+ pluggy                  0.13.1      MIT License                                         
+ py                      1.10.0      MIT License                                         
+ pyparsing               2.4.7       MIT License                                         
+ pytest                  6.2.1       MIT License                                         
+ pytz                    2020.5      MIT License                                         
+ redis                   3.5.3       MIT License                                         
+ sacremoses              0.0.43      MIT License                                         
+ six                     1.15.0      MIT License                                         
+ toml                    0.10.2      MIT License                                         
+ urllib3                 1.25.11     MIT License                                         
+ tqdm                    4.55.0      MIT License, Mozilla Public License 2.0 (MPL 2.0)   
+ certifi                 2020.12.5   Mozilla Public License 2.0 (MPL 2.0)                
+ typing-extensions       3.7.4.3     Python Software Foundation License                  
+ fastBPE                 0.1.0       UNKNOWN                                             
