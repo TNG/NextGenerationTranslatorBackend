@@ -1,3 +1,7 @@
+
+We appreciate commits from external sources and help is always welcome, so feel free to issue a pull request to us.
+If you want to contribute, you should however follow the basic rules stated below.
+
 ## Sign your work - the Developer's Certificate of Origin
 
 The sign-off is a simple line at the end of the explanation for the patch, which certifies that you wrote it or
