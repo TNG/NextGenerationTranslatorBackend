@@ -1,7 +1,9 @@
 # Next Generation Translator Backend
 
 This repository provides a backend translation implementation that you can consume via REST requests. The translation is
-based on Facebook's [WMT-19 models](https://github.com/pytorch/fairseq/blob/master/examples/wmt19/README.md).
+based on Facebook's very good [WMT-19 models](https://github.com/pytorch/fairseq/blob/master/examples/wmt19/README.md)
+for a few languages, as well as the open source [Opus-MT](https://github.com/Helsinki-NLP/Opus-MT) models for many more
+languages, but less accurate translation.
 
 # Technicalities
 
@@ -12,15 +14,30 @@ based on Facebook's [WMT-19 models](https://github.com/pytorch/fairseq/blob/mast
 
 ## Run locally
 
-It is highly recommended to create a venv.
+### Using Poetry
+If you have poetry (e.g. via `pip install poetry`)
+install a virtual env via
+```
+poetry install
+```
+and then open a shell with activated env via `poetry shell`
+or run any  command via `poetry run <CMD>`.
 
-Then call the following command:
+### Alternative
+
+For an existing virtual environment, install dependencies via:
 
 ```
 pip install -r requirements.txt
 ```
 
-You need to start a local Redis instance:
+Note: In order to generate a requirements.txt from Poetry,
+run 
+```bash
+poetry export --with opusmt --without-hashes > requirements.txt 
+```
+
+For local development outside Docker, you need to start a local Redis instance:
 
 ```
 src/script/start-redis.sh
@@ -45,10 +62,34 @@ This will start the service at http://localhost:80.
 To run the service in Docker, simply call the following command:
 
 ```
-src/script/docker-run.sh
+src/script/docker-run.sh --env-file local.env
 ```
 
 This will build a Docker image and run it locally. It will also start the service at http://localhost:80.
+
+
+```
+src/script/docker-run.sh --env-file local.env
+```
+you spin up an instance with only a mocked backend for testing.
+## Configuration of Models
+
+See the  `TranslatorSettings` class in `src/main/settings.py`
+for detailed list of all settings which can be set up via environment
+variables.
+
+The most imprtant environment variable is `TRANSLATOR_MODELS`. Via 
+```
+TRANSLATOR_MODELS=["mock"]
+```
+you can set up the list of models to be spinned up.
+
+Current available models are (if you do not change setup):
+- nlb-200 (Note: for non-commercial use only, cf. NLB-200 license)
+- opus-mt
+- wmt-19
+- mock (just for testing)
+
 
 ## Testing the application
 
@@ -96,17 +137,26 @@ This means that the language has detected your text to be written in German ('de
 
 ### Translate text
 
-To translate texts to German or English, POST to the /translation endpoint
+To translate texts, POST to the /translation endpoint. You can omit the source language and let the backend detect it by
+itself:
 
 ```
 curl -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' \
   --data '{ "texts": ["Hallo"], "targetLanguage": "en" }' http://${DOMAIN}:${PORT}/translation
 ```
 
+Or you can define the source language as well:
+
+```
+curl -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' \
+  --data '{ "texts": ["burro"], "targetLanguage": "en", "sourceLanguage": "es" }' http://${DOMAIN}:${PORT}/translation
+```
+
 The result will look like this:
 
 ```
 {"texts": ["Hello "]}
+{"texts": ["donkey"]}
 ```
 
 The resulting array will contain the translated texts in the order in which they were given as inputs.
@@ -119,13 +169,34 @@ You can also use a script shortcut script:
 src/script/translate.sh 'Text to be translated' 'de'
 ```
 
+### Supported languages
+
+The `/languages` endpoint gives information on what languages can be translated into what. Calling it with GET returns
+all supported languages (which are assumed to be connected to english).
+
+```
+curl -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' \
+  --data '{ "baseLanguage": "fr" }' http://${DOMAIN}:${PORT}/languages
+
+curl http://${DOMAIN}:${PORT}/languages
+```
+
+Whatever baseLanguage you use, the reply is most likely the same, as there is probably no model that translates from a
+language into another one, where both of these languages are not connected to any other supported language.
+
+## Run (unit) tests
+In the root directory in an environment with suitable Python interpreter (e.g. activated virtual environment), run
+```
+pytest src/test
+```
+
 ## Run (load) test
 
 To test the functionality, but also to get an impression of what it is like to test with multiple requests at once, use
 the following command AFTER starting the service locally or in a container:
 
 ```
-pytest -s --capture=no
+pytest -s --capture=no src/test/test_load.py
 ```
 
 This will fire 100 requests with random texts from resources/test_texts.csv against the service and verify the
@@ -143,3 +214,5 @@ To manipulate the number of requests or timer settings, you can change the follo
 This repository is published under the Apache License 2.0, see the [LICENSE](LICENSE) for details.
 
 If you want to contribute, please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
+# temp-test
+

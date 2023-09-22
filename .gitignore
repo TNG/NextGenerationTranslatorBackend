@@ -2,5 +2,9 @@
 /.venv
 
 /cache
-
+easy_nmt_cache
+!easy_nmt_cache/m2m_100_12b/easynmt.json
 .idea
+**/__pycache__
+src/main/translator_models/.DS_Store
+**/.DS_Store
